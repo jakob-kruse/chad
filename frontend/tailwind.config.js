@@ -1,5 +1,8 @@
 module.exports = {
-  purge: [],
+  purge: [
+    './src/**/*.html',
+    './src/**/*.svelte',
+  ],
   target: 'relaxed',
   prefix: '',
   important: false,
