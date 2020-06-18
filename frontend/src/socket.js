@@ -1,20 +1,20 @@
 import io from "socket.io-client";
 import {
-  hasUsername,
+  isInitialized,
   messages as messagesStore,
   notifications,
-  username,
+  username as usernameStore,
 } from "./stores.js";
 
 const socket = io("/");
 
-socket.on("suggest username", (data) => {
-  username.set(data.username);
+socket.on("pre initialize", ({ username, messages }) => {
+  usernameStore.set(username);
+  messagesStore.set(messages);
 });
 
-socket.on("finished initialize", ({ messages }) => {
-  hasUsername.set(true);
-  messagesStore.set(messages);
+socket.on("finished initialize", () => {
+  isInitialized.set(true);
 });
 
 socket.on("notification", (notification) => {

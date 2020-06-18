@@ -19,16 +19,15 @@ export function createSocket(server: Server): void {
     socketServer = io(server)
 
     socketServer.on('connection', (socket) => {
-        socket.emit('suggest username', {
+        socket.emit('pre initialize', {
             username: userManager.suggestUsername(),
+            messages: messageManager.getMessages(),
         })
 
         socket.on('initialize', ({ username }) => {
             try {
                 userManager.addUser(socket.id, username)
-                socket.emit('finished initialize', {
-                    messages: messageManager.getMessages(),
-                })
+                socket.emit('finished initialize')
             } catch (error) {
                 sendNotification(socket, {
                     type: 'error',
@@ -48,7 +47,7 @@ export function createSocket(server: Server): void {
                 })
             } else {
                 try {
-                    const message = messageManager.addMessage(author, content)
+                    const message = messageManager.addMessage(author, content.trim())
                     socket.emit('new message', { message })
                     socket.broadcast.emit('new message', { message })
                 } catch (error) {

@@ -1,19 +1,19 @@
 <script>
-  import MessageInputBar from './components/MessageInputBar.svelte'
-  import UserPopup from './components/UserPopup.svelte'
-  import Notifications from './components/Notifications.svelte'
-  import Messages from './components/Messages.svelte'
-  import { hasUsername } from './stores.js'
-  import { onDestroy } from 'svelte'
-  import Tailwindcss from './components/Tailwindcss.svelte'
+  import MessageInputBar from "./components/MessageInputBar.svelte";
+  import UserPopup from "./components/UserPopup.svelte";
+  import Notifications from "./components/Notifications.svelte";
+  import Messages from "./components/Messages.svelte";
+  import { isInitialized } from "./stores.js";
+  import { onDestroy } from "svelte";
+  import Tailwindcss from "./components/Tailwindcss.svelte";
 
-  let showUsernamePopup = true
+  let showUsernamePopup = true;
 
-  const unsubscribe = hasUsername.subscribe((value) => {
-    showUsernamePopup = !value
-  })
+  const unsubscribe = isInitialized.subscribe(value => {
+    showUsernamePopup = !value;
+  });
 
-  onDestroy(unsubscribe)
+  onDestroy(unsubscribe);
 </script>
 
 <svelte:head>
